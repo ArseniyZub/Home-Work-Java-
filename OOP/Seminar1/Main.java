@@ -32,7 +32,7 @@ public class Main {
         }
 
         for (int i = 0; allPlayers > 1; i++) {
-            players.get(i).Attack(players.get(r.nextInt(allPlayers))); // каждый сам за себя, даже елси бьет себя :)
+            players.get(i).Attack(players.get(r.nextInt(allPlayers))); // каждый сам за себя, даже если бьет себя :)
 
             if (!players.get(i).life) {
                 players.remove(i);
