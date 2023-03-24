@@ -1,9 +1,8 @@
 package OOP.Seminar5;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
-
-import OOP.Seminar5.RobotMap.Direction;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,44 +30,52 @@ public class Main {
         System.out.println("Введите одну из доступных команд:");
         System.out.println(" create-robot\n move-robot\n change-direction\n exit");
 
+        CommandManager commandManager = new CommandManager(map, List.of(
+            new CreateRobotCommandHandler(),
+            new MoveRobotCommandHandler(),
+            new ChangeDirectionCommandHandler()
+        ));
+
         while (true) {
             String command = in.nextLine();
-
-            if (command.startsWith("create-robot")) {
-                String[] split = command.split(" ");
-                String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+        
+            if (command.equals("exit")) break;
             
-                try {
-                    RobotMap.Robot robot = map.createRobot(new Point(Integer.parseInt(arguments[0]), Integer.parseInt(arguments[1])));
-                    System.out.println(robot);
-                } catch (PositionException e) {
-                    System.out.println("При создании робота возникло исключение: " + e.getMessage() + "Попробуйте снова");
-                }  
+            commandManager.handleCommand(command);
 
-            } else if (command.startsWith("move-robot")) {
-                String[] split = command.split(" ");
-                String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+            // if (command.startsWith("create-robot")) {
+            //     String[] split = command.split(" ");
+            //     String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+            
+            //     try {
+            //         RobotMap.Robot robot = map.createRobot(new Point(Integer.parseInt(arguments[0]), Integer.parseInt(arguments[1])));
+            //         System.out.println(robot);
+            //     } catch (PositionException e) {
+            //         System.out.println("При создании робота возникло исключение: " + e.getMessage() + "Попробуйте снова");
+            //     }  
 
-                try {
-                    map.getById(Long.parseLong(arguments[0])).move();
-                } catch (PositionException e) {
-                    System.out.println("При создании робота возникло исключение: " + e.getMessage() + "Попробуйте снова");
-                }
+            // } else if (command.startsWith("move-robot")) {
+            //     String[] split = command.split(" ");
+            //     String[] arguments = Arrays.copyOfRange(split, 1, split.length);
 
-            } else if (command.startsWith("change-direction")) {
-                String[] split = command.split(" ");
-                String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+            //     try {
+            //         map.getById(Long.parseLong(arguments[0])).move();
+            //     } catch (PositionException e) {
+            //         System.out.println("При создании робота возникло исключение: " + e.getMessage() + "Попробуйте снова");
+            //     }
 
-                try {
-                    Direction direction = Direction.ofString(args[1]);
-                    map.getById(Long.parseLong(arguments[0])).changeDirection(direction);
-                } catch (Exception e) {
-                    System.out.println("При создании робота возникло исключение: " + e.getMessage() + "Попробуйте снова");
-                }
+            // } else if (command.startsWith("change-direction")) {
+            //     String[] split = command.split(" ");
+            //     String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+
+            //     try {
+            //         Direction direction = Direction.ofString(args[1]);
+            //         map.getById(Long.parseLong(arguments[0])).changeDirection(direction);
+            //     } catch (Exception e) {
+            //         System.out.println("При создании робота возникло исключение: " + e.getMessage() + "Попробуйте снова");
+            //     }
                 
-            } else if (command.equals("exit")) {
-                break;
-            } 
+            // } 
         }
     }
 }
